@@ -1,4 +1,5 @@
 .normignore
 tests/
 build/
-objs_b
+objs/
+ft_nm
