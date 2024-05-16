@@ -1,0 +1,4 @@
+.normignore
+tests/
+build/
+objs_b
