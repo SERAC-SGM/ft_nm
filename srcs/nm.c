@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 13:45:59 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 11:16:19 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:20:30 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ int	nm(char *file)
 	// parse_program_header();
 	// parse_section_header();
 	close(fd);
+	ft_exit(0, &elf);
 	return (0);
 }

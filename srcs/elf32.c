@@ -6,13 +6,13 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:11 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/16 17:19:30 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:24:07 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/nm.h"
 
-void	set_elf32(t_elfheader *elf, void *file) // need big endian conversion
+void	set_header32(t_elfheader *elf, void *file) // need big endian conversion
 {
 	memcpy(elf->u_ehdr.elf32->e_ident, file, EI_NIDENT);
 	elf->u_ehdr.elf32->e_type = ((Elf32_Ehdr *)file)->e_type;

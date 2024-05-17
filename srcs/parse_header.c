@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 11:16:34 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:24:49 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,18 @@ void	parse_header(t_elfheader *elf, void *file)
 	if (elf->ei_class == ELFCLASS32)
 	{
 		elf->u_ehdr.elf32 = malloc(sizeof(Elf32_Ehdr)); // separate alloc function
-		set_elf32(elf, file);
+		elf->u_phdr.phdr32 = NULL;
+		elf->u_shdr.shdr32 = NULL;
+		set_header32(elf, file);
 		print_elf32(elf); // to remove
 	}
 	else
 	{
 		elf->u_ehdr.elf64 = malloc(sizeof(Elf64_Ehdr)); // separate alloc function
-		set_elf64(elf, file);
+		elf->u_phdr.phdr64 = NULL;
+		elf->u_shdr.shdr64 = NULL;
+		
+		set_header64(elf, file);
 		print_elf64(elf); // to remove
 	}
 	// ft_exit(0, elf); // to remove

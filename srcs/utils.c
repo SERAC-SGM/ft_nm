@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:33:09 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 10:48:55 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:20:12 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,21 @@ void	ft_exit(char num, t_elfheader *elf)
 {
 	if (elf->ei_class == ELFCLASS32)
 	{
-		free(elf->u_ehdr.elf32);
-		// free(elf->u_phdr.phdr32);
-		// free(elf->u_shdr.shdr32);
+		if (elf->u_ehdr.elf32)
+			free(elf->u_ehdr.elf32);
+		if (elf->u_phdr.phdr32)
+			free(elf->u_phdr.phdr32);
+		if (elf->u_shdr.shdr32)
+			free(elf->u_shdr.shdr32);
 	}
-
 	else
 	{
-		free(elf->u_ehdr.elf64);
-		// free(elf->u_phdr.phdr64);
-		// free(elf->u_shdr.shdr64);
+		if (elf->u_ehdr.elf64)
+			free(elf->u_ehdr.elf64);
+		if (elf->u_phdr.phdr64)
+			free(elf->u_phdr.phdr64);
+		if (elf->u_shdr.shdr64)
+			free(elf->u_shdr.shdr64);
 	}
 	exit(num);
 }
