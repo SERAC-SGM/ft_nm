@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/16 17:18:39 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:16:34 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static void	check_ei_version(char *file)
 	exit(1);
 }
 
-t_elfheader	parse_header(void *file)
+void	parse_header(t_elfheader *elf, void *file)
 {
-	t_elfheader	elf;
-
 	check_signature(file);
 	check_ei_class(file);
 	check_ei_data(file);
@@ -58,20 +56,19 @@ t_elfheader	parse_header(void *file)
 	// check_e_ehsize(file);
 	// check_program_header(file);
 	// check_section_header(file);
-	elf.ei_class = ((char*)file)[EI_CLASS];
-	elf.ei_data = ((char*)file)[EI_DATA];
-	if (elf.ei_class == ELFCLASS32)
+	elf->ei_class = ((char*)file)[EI_CLASS];
+	elf->ei_data = ((char*)file)[EI_DATA];
+	if (elf->ei_class == ELFCLASS32)
 	{
-		elf.u_ehdr.elf32 = malloc(sizeof(Elf32_Ehdr)); // separate alloc function
-		set_elf32(&elf, file);
-		print_elf32(&elf); // to remove
+		elf->u_ehdr.elf32 = malloc(sizeof(Elf32_Ehdr)); // separate alloc function
+		set_elf32(elf, file);
+		print_elf32(elf); // to remove
 	}
 	else
 	{
-		elf.u_ehdr.elf64 = malloc(sizeof(Elf64_Ehdr)); // separate alloc function
-		set_elf64(&elf, file);
-		print_elf64(&elf); // to remove
+		elf->u_ehdr.elf64 = malloc(sizeof(Elf64_Ehdr)); // separate alloc function
+		set_elf64(elf, file);
+		print_elf64(elf); // to remove
 	}
-	ft_exit(0, &elf); // to remove
-	return (elf);
+	// ft_exit(0, elf); // to remove
 }

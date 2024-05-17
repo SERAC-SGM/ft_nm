@@ -6,12 +6,11 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:33:09 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:41 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:48:55 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/nm.h"
-#include <inttypes.h>
 
 void	print_elf32(t_elfheader *elf)
 {
@@ -26,7 +25,7 @@ void	print_elf32(t_elfheader *elf)
 	ft_printf("e_version : %d\n", elf->u_ehdr.elf32->e_version);
 	ft_printf("e_entry : %x\n", elf->u_ehdr.elf32->e_entry);
 	ft_printf("e_phoff : %d\n", elf->u_ehdr.elf32->e_phoff);
-	ft_printf("e_shoff : %x\n", elf->u_ehdr.elf32->e_shoff);
+	ft_printf("e_shoff : %d\n", elf->u_ehdr.elf32->e_shoff);
 	ft_printf("e_flags : %d\n", elf->u_ehdr.elf32->e_flags);
 	ft_printf("e_ehsize : %d\n", elf->u_ehdr.elf32->e_ehsize);
 	ft_printf("e_phentsize : %d\n", elf->u_ehdr.elf32->e_phentsize);
@@ -49,7 +48,7 @@ void	print_elf64(t_elfheader *elf)
 	ft_printf("e_version : %d\n", elf->u_ehdr.elf64->e_version);
 	ft_printf("e_entry : %x\n", elf->u_ehdr.elf64->e_entry);
 	ft_printf("e_phoff : %d\n", elf->u_ehdr.elf64->e_phoff);
-	ft_printf("e_shoff : %x\n", elf->u_ehdr.elf64->e_shoff);
+	ft_printf("e_shoff : %d\n", elf->u_ehdr.elf64->e_shoff);
 	ft_printf("e_flags : %d\n", elf->u_ehdr.elf64->e_flags);
 	ft_printf("e_ehsize : %d\n", elf->u_ehdr.elf64->e_ehsize);
 	ft_printf("e_phentsize : %d\n", elf->u_ehdr.elf64->e_phentsize);

@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:21:03 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/16 17:01:37 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:17:10 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include "struct.h"
 
 // elfheader *get_elf_header(char *file);
-t_elfheader	parse_header(void *file);
+void	parse_header(t_elfheader *elf, void *file);
 
-void		check_e_version(char *file);
+void	check_e_version(char *file);
 
 #endif
