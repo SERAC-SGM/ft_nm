@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 17:03:53 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:25:07 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,31 @@ static int	check_e_type(char *file)
 
 static int	check_offsets(char *file, unsigned long size)
 {
-	if (file[EI_CLASS] == ELFCLASS32 && size < HEADEROFFSET32)
-	{
-		ft_printf("Invalid or corrupted file\n");
-		return (FAILURE);
-	}
-	else if (file[EI_CLASS] == ELFCLASS64 && size < HEADEROFFSET64)
-	{
-		ft_printf("Invalid or corrupted file\n");
-		return (FAILURE);
-	}
+	Elf32_Off	e_phoff32;
+	Elf32_Off	e_shoff32;
+	Elf64_Off	e_phoff64;
+	Elf64_Off	e_shoff64;
+
+	if (file[EI_CLASS] == ELFCLASS32) goto x32;
+	else if (file[EI_CLASS] == ELFCLASS64) goto x64;
+
+x32:
+	e_phoff32 = ((Elf32_Ehdr *)file)->e_phoff;
+	e_shoff32 = ((Elf32_Ehdr *)file)->e_shoff;
+	if (e_phoff32 > size || e_shoff32 > size)
+		goto error;
 	return (SUCCESS);
+
+x64:
+	e_phoff64 = ((Elf64_Ehdr *)file)->e_phoff;
+	e_shoff64 = ((Elf64_Ehdr *)file)->e_shoff;
+	if (e_phoff64 > size || e_shoff64 > size)
+		goto error;
+	return (SUCCESS);
+
+error:
+	ft_printf("Invalid or corrupted file\n");
+	return (FAILURE);
 }
 
 
