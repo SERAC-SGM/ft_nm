@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:21:36 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 12:20:40 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:17:05 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define STRUCT_H
 
 # include "elf.h"
+
+# define SUCCESS (0)
+# define FAILURE (-1)
 
 # define HEADEROFFSET32	(52)
 # define HEADEROFFSET64	(64)
@@ -37,18 +40,18 @@ typedef struct s_elfheader
 
 	union
 	{
-		Elf32_Ehdr	*elf32;
-		Elf64_Ehdr	*elf64;
+		Elf32_Ehdr	elf32;
+		Elf64_Ehdr	elf64;
 	}	u_ehdr;
 	union
 	{
-		Elf32_Phdr	*phdr32;
-		Elf64_Phdr	*phdr64;
+		Elf32_Phdr	phdr32;
+		Elf64_Phdr	phdr64;
 	}	u_phdr;
 	union
 	{
-		Elf32_Shdr	*shdr32;
-		Elf64_Shdr	*shdr64;
+		Elf32_Shdr	shdr32;
+		Elf64_Shdr	shdr64;
 	}	u_shdr;
 }	t_elfheader;
 

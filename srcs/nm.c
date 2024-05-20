@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 13:45:59 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 15:01:46 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:46:38 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,22 @@ static void	*map_file(t_elfheader *elf, int fd)
 
 	if (fstat(fd, &st) < 0)
 	{
-		perror("fstat");
+		perror("");
 		exit(1);
 	}
 	if (st.st_size == 0)
-		exit(1);
+		goto error;
 	elf->file_size = st.st_size;
 	file = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (file == MAP_FAILED)
 	{
-		perror("mmap");
-		exit(1);
+		perror("");
+		goto error;
 	}
 	return (file);
+
+	error:
+		return (NULL);
 }
 
 int	nm(char *file)
@@ -41,13 +44,23 @@ int	nm(char *file)
 	void		*mapped_file;
 	int			fd;
 
-	init_memory(&elf, file[EI_CLASS]);
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("");
+		return (1);
+	}
 	mapped_file = map_file(&elf, fd);
-	parse_header(&elf, mapped_file);
-	// parse_program_header();
-	// parse_section_header();
+	if (!mapped_file)
+		goto error;
+	if (parse_header(&elf, mapped_file) == FAILURE)
+		goto error;
+	if (parse_program_header(&elf, file) == FAILURE)
+		goto error;
 	close(fd);
-	ft_exit(0, &elf);
 	return (0);
+
+error:
+	close(fd);
+	return (1);
 }

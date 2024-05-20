@@ -6,62 +6,110 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:41 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:03:53 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/nm.h"
 #include <elf.h>
 
-static void	check_signature(char *file)
+static int	check_signature(char *file)
 {
 	if (file[EI_MAG0] == ELFMAG0 && file[EI_MAG1] == ELFMAG1
 		&& file[EI_MAG2] == ELFMAG2 && file[EI_MAG3] == ELFMAG3)
-		return ;
+		return (SUCCESS);
 	ft_printf("Invalid file signature\n");
-	exit(1);
+	return (FAILURE);
 }
 
-static char	check_ei_class(char *file)
+static int	check_ei_class(char *file)
 {
 	if (file[EI_CLASS] == ELFCLASS32 || file[EI_CLASS] == ELFCLASS64)
-		return (file[EI_CLASS]);
+		return (SUCCESS);
 	printf("Invalid class format\n");
-	exit(1);
+	return (FAILURE);
 }
 
-static void	check_ei_data(char *file)
+static int	check_ei_data(char *file)
 {
 	if (file[EI_DATA] == ELFDATA2LSB || file[EI_DATA] == ELFDATA2MSB)
-		return ;
+		return (SUCCESS);
 	ft_printf("Invalid data format\n");
-	exit(1);
+	return (FAILURE);
 }
 
-static void	check_ei_version(char *file)
+static int	check_ei_version(char *file)
 {
 	if (file[EI_VERSION] == EV_CURRENT)
-		return ;
+		return (SUCCESS);
 	ft_printf("Invalid header version\n");
-	exit(1);
+	return (FAILURE);
 }
 
-void	parse_header(t_elfheader *elf, void *file)
+static int	check_e_version(char *file)
 {
-	check_file_size(elf->ei_class, elf->file_size);
-	check_signature(file);
-	check_ei_class(file);
-	check_ei_data(file);
-	check_ei_version(file);
-	check_e_type(((Elf32_Ehdr *)file)->e_type);
-	check_e_version(file);
-	// check_offset_size(file, elf->file_size);
-	// check_e_ehsize(file, elf->file_size);
-	// check_program_header(file);
-	// check_section_header(file);
+	if (file[EI_VERSION] == EV_CURRENT)
+		return (SUCCESS);
+	ft_printf("Invalid object file version\n");
+	return (FAILURE);
+}
+
+static int	check_file_size(char *file, unsigned long size)
+{
+	if (file[EI_CLASS] == ELFCLASS32 && size < HEADEROFFSET32)
+	{
+		ft_printf("Invalid or corrupted file\n");
+		return (FAILURE);
+	}
+	else if (file[EI_CLASS] == ELFCLASS64 && size < HEADEROFFSET64)
+	{
+		ft_printf("Invalid or corrupted file\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+static int	check_e_type(char *file)
+{
+	t_elf_half e_type;
+	
+	e_type = ((Elf32_Ehdr * )file)->e_type;
+	if (e_type == ET_NONE || e_type == ET_REL || e_type == ET_EXEC
+		|| e_type == ET_DYN || e_type == ET_CORE)
+		return (SUCCESS);
+	ft_printf("Invalid object file type\n");
+	return (FAILURE);
+}
+
+static int	check_offsets(char *file, unsigned long size)
+{
+	if (file[EI_CLASS] == ELFCLASS32 && size < HEADEROFFSET32)
+	{
+		ft_printf("Invalid or corrupted file\n");
+		return (FAILURE);
+	}
+	else if (file[EI_CLASS] == ELFCLASS64 && size < HEADEROFFSET64)
+	{
+		ft_printf("Invalid or corrupted file\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+
+int	parse_header(t_elfheader *elf, void *file)
+{
+	if (check_signature(file) == FAILURE
+		|| check_ei_class(file) == FAILURE
+		|| check_file_size(file, elf->file_size) == FAILURE
+		|| check_ei_data(file) == FAILURE
+		|| check_ei_version(file) == FAILURE
+		|| check_e_type(file) == FAILURE
+		|| check_e_version(file) == FAILURE
+		|| check_offsets(file, elf->file_size) == FAILURE)
+		return (FAILURE);
 	elf->ei_class = ((char *)file)[EI_CLASS];
 	elf->ei_data = ((char *)file)[EI_DATA];
-	allocate_memory(elf, HEADER);
 	if (elf->ei_class == ELFCLASS32)
 	{
 		set_header32(elf, file);
@@ -72,5 +120,5 @@ void	parse_header(t_elfheader *elf, void *file)
 		set_header64(elf, file);
 		print_elf64(elf); // to remove
 	}
-	// ft_exit(0, elf); // to remove
+	return (SUCCESS);
 }
