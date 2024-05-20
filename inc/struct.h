@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:21:36 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/16 17:04:44 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:20:40 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 # include "elf.h"
 
-// # define HEADEROFFSET32	(52)
-// # define HEADEROFFSET64	(64)
+# define HEADEROFFSET32	(52)
+# define HEADEROFFSET64	(64)
+// # define EHSIZE32		(52)
+// # define EHSIZE64		(64)
 
-// typedef uint16_t	t_elf_half;
-// typedef uint32_t	t_elf_word;
+typedef uint16_t	t_elf_half;
+typedef uint32_t	t_elf_word;
 
 /*
 	Structure containing the header of the elf file
@@ -29,8 +31,9 @@
 */
 typedef struct s_elfheader
 {
-	char	ei_class;
-	char	ei_data;
+	char				ei_class;
+	char				ei_data;
+	unsigned long		file_size;
 
 	union
 	{
@@ -78,5 +81,52 @@ typedef struct s_elfheader
 // 	E_SHNUM64 = 60,
 // 	E_SHSTRNDX64 = 62
 // }	t_headerparam;
+
+enum e_phparam
+{
+	P_TYPE = 0,
+	P_FLAGS64 = 4,
+	P_OFFSET32 = 4,
+	P_OFFSET64 = 8,
+	P_VADDR32 = 8,
+	P_VADDR64 = 16,
+	P_PADDR32 = 12,
+	P_PADDR64 = 24,
+	P_FILESZ32 = 16,
+	P_FILESZ64 = 32,
+	P_MEMSZ32 = 20,
+	P_MEMSZ64 = 40,
+	P_FLAGS32 = 24,
+	P_ALIGN32 = 28,
+	P_ALIGN64 = 48,
+};
+
+enum e_shparam
+{
+	S_NAME = 0,
+	S_TYPE = 4,
+	S_FLAGS = 8,
+	S_ADDR32 = 12,
+	S_ADDR64 = 16,
+	S_OFFSET32 = 16,
+	S_OFFSET64 = 24,
+	S_SIZE32 = 20,
+	S_SIZE64 = 32,
+	S_LINK32 = 24,
+	S_LINK64 = 36,
+	S_INFO32 = 28,
+	S_INFO64 = 40,
+	S_ALIGN32 = 32,
+	S_ALIGN64 = 40,
+	S_ENTSIZE32 = 36,
+	S_ENTSIZE64 = 48,
+};
+
+enum e_memoryparam
+{
+	HEADER,
+	PROGRAMHEADER,
+	SECTIONHEADER,
+};
 
 #endif

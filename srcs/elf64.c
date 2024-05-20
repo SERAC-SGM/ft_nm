@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:30:27 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 11:24:02 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:04:10 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,9 @@ void	set_header64(t_elfheader *elf, void *file) // need big endian conversion
 	elf->u_ehdr.elf64->e_shentsize = ((Elf64_Ehdr *)file)->e_shentsize;
 	elf->u_ehdr.elf64->e_shnum = ((Elf64_Ehdr *)file)->e_shnum;
 	elf->u_ehdr.elf64->e_shstrndx = ((Elf64_Ehdr *)file)->e_shstrndx;
+}
+
+void	set_program_header64(t_elfheader *elf, void *file)
+{
+	elf->u_phdr.phdr64 = (Elf64_Phdr *)(file + elf->u_ehdr.elf64->e_phoff);
 }

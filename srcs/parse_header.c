@@ -6,11 +6,12 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 11:24:49 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:41 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/nm.h"
+#include <elf.h>
 
 static void	check_signature(char *file)
 {
@@ -47,31 +48,27 @@ static void	check_ei_version(char *file)
 
 void	parse_header(t_elfheader *elf, void *file)
 {
+	check_file_size(elf->ei_class, elf->file_size);
 	check_signature(file);
 	check_ei_class(file);
 	check_ei_data(file);
 	check_ei_version(file);
+	check_e_type(((Elf32_Ehdr *)file)->e_type);
 	check_e_version(file);
-	// check_offset_size(file);
-	// check_e_ehsize(file);
+	// check_offset_size(file, elf->file_size);
+	// check_e_ehsize(file, elf->file_size);
 	// check_program_header(file);
 	// check_section_header(file);
-	elf->ei_class = ((char*)file)[EI_CLASS];
-	elf->ei_data = ((char*)file)[EI_DATA];
+	elf->ei_class = ((char *)file)[EI_CLASS];
+	elf->ei_data = ((char *)file)[EI_DATA];
+	allocate_memory(elf, HEADER);
 	if (elf->ei_class == ELFCLASS32)
 	{
-		elf->u_ehdr.elf32 = malloc(sizeof(Elf32_Ehdr)); // separate alloc function
-		elf->u_phdr.phdr32 = NULL;
-		elf->u_shdr.shdr32 = NULL;
 		set_header32(elf, file);
 		print_elf32(elf); // to remove
 	}
 	else
 	{
-		elf->u_ehdr.elf64 = malloc(sizeof(Elf64_Ehdr)); // separate alloc function
-		elf->u_phdr.phdr64 = NULL;
-		elf->u_shdr.shdr64 = NULL;
-		
 		set_header64(elf, file);
 		print_elf64(elf); // to remove
 	}

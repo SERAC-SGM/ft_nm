@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parse_program_header.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 17:33:18 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/17 14:59:28 by lletourn         ###   ########.fr       */
+/*   Created: 2024/05/17 14:32:42 by lletourn          #+#    #+#             */
+/*   Updated: 2024/05/20 11:43:42 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include <elf.h>
 
-# include "struct.h"
+void	parse_program_header32(char *file, Elf32_Off p_offset)
+{
+	char	*programheader;
 
-void	print_elf32(t_elfheader *elf);
-void	print_elf64(t_elfheader *elf);
-void	init_memory(t_elfheader *elf, char elfclass);
-void	allocate_memory(t_elfheader *elf, char param);
-void	ft_exit(char num, t_elfheader *elf);
-
-#endif
+	programheader = file + p_offset;
+}
