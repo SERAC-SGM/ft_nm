@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:21:31 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 16:32:06 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:09:33 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "../libft/inc/libft.h"
 # include "struct.h"
 # include "parse_header.h"
-# include "check_program_header.h"
 # include "parse_program_header.h"
 # include "utils.h"
 

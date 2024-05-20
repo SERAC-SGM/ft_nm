@@ -2,4 +2,6 @@
 tests/
 build/
 objs/
+libft/
 ft_nm
+*.old
