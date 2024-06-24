@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:21:36 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 16:17:05 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:32:59 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 # define HEADEROFFSET32	(52)
 # define HEADEROFFSET64	(64)
-// # define EHSIZE32		(52)
-// # define EHSIZE64		(64)
+# define EHSIZE32		(52)
+# define EHSIZE64		(64)
 
 typedef uint16_t	t_elf_half;
 typedef uint32_t	t_elf_word;

@@ -6,13 +6,11 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 13:46:01 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 16:42:32 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:46:30 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/nm.h"
-
-#include <stdio.h>
 
 int	main(int argc, char *argv[])
 {

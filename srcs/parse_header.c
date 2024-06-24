@@ -6,7 +6,7 @@
 /*   By: lletourn <lletourn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:47 by lletourn          #+#    #+#             */
-/*   Updated: 2024/05/20 17:25:07 by lletourn         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:51:54 by lletourn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,29 @@ error:
 	return (FAILURE);
 }
 
+static int	check_e_ehsize(char *file)
+{
+	t_elf_half	ehsize;
+
+	if (file[EI_CLASS] == ELFCLASS32)
+		goto x32;
+	goto x64;
+
+x32:
+	ehsize = ((Elf32_Ehdr *)file)->e_ehsize;
+	if (ehsize != EHSIZE32)
+		goto error;
+	return (SUCCESS);
+x64:
+	ehsize = ((Elf64_Ehdr *)file)->e_ehsize;
+	if (ehsize != EHSIZE64)
+		goto error;
+	return (SUCCESS);
+error:
+	ft_printf("Invalid header size\n");
+	return (FAILURE);
+}
+
 
 int	parse_header(t_elfheader *elf, void *file)
 {
@@ -120,7 +143,8 @@ int	parse_header(t_elfheader *elf, void *file)
 		|| check_ei_version(file) == FAILURE
 		|| check_e_type(file) == FAILURE
 		|| check_e_version(file) == FAILURE
-		|| check_offsets(file, elf->file_size) == FAILURE)
+		|| check_offsets(file, elf->file_size) == FAILURE
+		|| check_e_ehsize(file) == FAILURE)
 		return (FAILURE);
 	elf->ei_class = ((char *)file)[EI_CLASS];
 	elf->ei_data = ((char *)file)[EI_DATA];
